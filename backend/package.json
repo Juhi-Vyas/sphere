@@ -16,6 +16,7 @@
     "express": "^5.2.1",
     "inngest": "^4.3.0",
     "mongoose": "^9.6.1",
-    "nodemon": "^3.1.14"
+    "nodemon": "^3.1.14",
+    "stream-chat": "^9.43.1"
   }
 }
