@@ -1,25 +1,36 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
-import { Show, SignInButton, SignUpButton, UserButton } from '@clerk/react'
+import { Navigate, Route, Routes } from "react-router";
+
+import { useUser } from "@clerk/react";
+
+import HomePage from "./pages/HomePage";
+import ProblemsPage from "./pages/ProblemsPage";
+import DashboardPage from "./pages/DashboardPage";
 
 function App() {
+  const { isSignedIn, isLoaded } = useUser();
+
+  if (!isLoaded) return null;
 
   return (
     <>
-      <h1>Welcome to the App</h1>
+      <Routes>
+        <Route
+          path="/"
+          element={<HomePage /> }
+        />
 
-      <Show when="signed-out">
-          <SignInButton />
-          <SignUpButton />
-        </Show>
-        <Show when="signed-in">
-          <UserButton />
-        </Show>
+        <Route
+          path="/dashboard"
+          element={isSignedIn ? <DashboardPage /> : <Navigate to="/" />}
+        />
+
+        <Route
+          path="/problems"
+          element={isSignedIn ? <ProblemsPage /> : <Navigate to="/" />}
+        />
+      </Routes>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
