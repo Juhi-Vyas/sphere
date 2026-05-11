@@ -1,7 +1,10 @@
 import { Link } from "react-router";
+
 import Navbar from "../components/Navbar";
 
 import { PROBLEMS } from "../data/problems";
+
+import { getDifficultyBadgeClass  } from "../lib/utils";
 
 import {
   ChevronRightIcon,
@@ -25,19 +28,8 @@ function ProblemsPage() {
     (p) => p.difficulty === "Hard"
   ).length;
 
-  const getDifficultyClass = (difficulty) => {
-    if (difficulty === "Easy") {
-      return "badge-success";
-    }
-
-    if (difficulty === "Medium") {
-      return "badge-warning";
-    }
-
-    return "badge-error";
-  };
-
   return (
+
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-950 text-white">
 
       <Navbar />
@@ -48,32 +40,38 @@ function ProblemsPage() {
         <div className="mb-14">
 
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/20 mb-6">
+
             <SparklesIcon className="size-4 text-blue-400" />
 
             <span className="text-sm text-blue-300">
               Real-time Coding Practice
             </span>
+
           </div>
 
           <h1 className="text-5xl lg:text-7xl font-black leading-tight">
 
             Solve
+
             <span className="bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
               {" "}Coding{" "}
             </span>
+
             Challenges
 
           </h1>
 
           <p className="mt-6 text-lg text-gray-400 max-w-2xl leading-relaxed">
+
             Practice technical interview questions with an
             interactive coding environment and improve your
             problem-solving skills.
+
           </p>
 
         </div>
 
-        {/* PROBLEMS LIST */}
+        {/* PROBLEMS */}
         <div className="space-y-5">
 
           {problems.map((problem) => (
@@ -108,7 +106,7 @@ function ProblemsPage() {
                         </h2>
 
                         <span
-                          className={`badge ${getDifficultyClass(
+                          className={`badge ${getDifficultyBadgeClass (
                             problem.difficulty
                           )}`}
                         >
@@ -204,6 +202,7 @@ function ProblemsPage() {
       </div>
 
     </div>
+
   );
 }
 

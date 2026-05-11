@@ -5,6 +5,7 @@ import { useUser } from "@clerk/react";
 import HomePage from "./pages/HomePage";
 import ProblemsPage from "./pages/ProblemsPage";
 import DashboardPage from "./pages/DashboardPage";
+import ProblemPage from './pages/ProblemPage'
 
 function App() {
   const { isSignedIn, isLoaded } = useUser();
@@ -16,7 +17,7 @@ function App() {
       <Routes>
         <Route
           path="/"
-          element={<HomePage /> }
+          element={!isSignedIn ? <HomePage /> : <Navigate to="/dashboard" />}
         />
 
         <Route
@@ -27,6 +28,10 @@ function App() {
         <Route
           path="/problems"
           element={isSignedIn ? <ProblemsPage /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/problem:id"
+          element={isSignedIn ? <ProblemPage /> : <Navigate to="/" />}
         />
       </Routes>
     </>
