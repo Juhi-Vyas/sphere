@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import { Link } from "react-router-dom-dom";
 
 import {
   Code2Icon,
@@ -10,7 +10,7 @@ import {
 import {
   UserButton,
   useUser,
-} from "@clerk/react";
+} from "@clerk/clerk-react";
 
 function Navbar() {
 

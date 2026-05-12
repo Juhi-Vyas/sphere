@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router";
+import { useNavigate, useParams } from "react-router-dom-dom";
 
 import {
   Panel,
@@ -180,7 +180,6 @@ function ProblemPage() {
 
     <div className="h-screen overflow-hidden bg-gradient-to-br from-gray-900 via-black to-gray-950 text-white flex flex-col">
 
-      {/* NAVBAR */}
       <Navbar />
 
       {/* MAIN CONTENT */}
