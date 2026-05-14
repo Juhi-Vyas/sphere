@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom-dom";
+
+import { useNavigate, useParams } from "react-router-dom";
 
 import {
   Panel,
@@ -8,14 +9,19 @@ import {
 } from "react-resizable-panels";
 
 import toast from "react-hot-toast";
+
 import confetti from "canvas-confetti";
 
 import Navbar from "../components/Navbar";
+
 import ProblemDescription from "../components/ProblemDescription";
+
 import OutputPanel from "../components/OutputPanel";
+
 import CodeEditorPanel from "../components/CodeEditorPanel";
 
 import { PROBLEMS } from "../data/problems";
+
 import { executeCode } from "../lib/piston";
 
 function ProblemPage() {
@@ -36,9 +42,11 @@ function ProblemPage() {
 
   const [output, setOutput] = useState(null);
 
-  const [isRunning, setIsRunning] = useState(false);
+  const [isRunning, setIsRunning] =
+    useState(false);
 
-  const currentProblem = PROBLEMS[currentProblemId];
+  const currentProblem =
+    PROBLEMS[currentProblemId];
 
   useEffect(() => {
 
@@ -47,7 +55,9 @@ function ProblemPage() {
       setCurrentProblemId(id);
 
       setCode(
-        PROBLEMS[id].starterCode[selectedLanguage]
+        PROBLEMS[id].starterCode[
+          selectedLanguage
+        ]
       );
 
       setOutput(null);
@@ -70,7 +80,9 @@ function ProblemPage() {
 
   };
 
-  const handleProblemChange = (newProblemId) => {
+  const handleProblemChange = (
+    newProblemId
+  ) => {
 
     navigate(`/problem/${newProblemId}`);
 
@@ -120,7 +132,10 @@ function ProblemPage() {
     const normalizedExpected =
       normalizeOutput(expectedOutput);
 
-    return normalizedActual === normalizedExpected;
+    return (
+      normalizedActual ===
+      normalizedExpected
+    );
 
   };
 
@@ -142,7 +157,9 @@ function ProblemPage() {
     if (result.success) {
 
       const expectedOutput =
-        currentProblem.expectedOutput[selectedLanguage];
+        currentProblem.expectedOutput[
+          selectedLanguage
+        ];
 
       const testsPassed =
         checkIfTestsPassed(
@@ -178,37 +195,48 @@ function ProblemPage() {
 
   return (
 
-    <div className="h-screen overflow-hidden bg-gradient-to-br from-gray-900 via-black to-gray-950 text-white flex flex-col">
+    <div className="h-screen overflow-hidden bg-[#FFF7ED] flex flex-col">
 
       <Navbar />
 
-      {/* MAIN CONTENT */}
-      <div className="flex-1 overflow-hidden">
+      {/* MAIN */}
+
+      <div className="flex-1 overflow-hidden pt-20">
 
         <PanelGroup direction="horizontal">
 
           {/* LEFT PANEL */}
+
           <Panel
             defaultSize={40}
             minSize={30}
           >
 
-            <div className="h-full overflow-y-auto bg-white/5 backdrop-blur-xl border-r border-white/10">
+            <div className="h-full overflow-y-auto bg-white border-r border-orange-100">
 
               <ProblemDescription
                 problem={currentProblem}
-                currentProblemId={currentProblemId}
-                onProblemChange={handleProblemChange}
-                allProblems={Object.values(PROBLEMS)}
+                currentProblemId={
+                  currentProblemId
+                }
+                onProblemChange={
+                  handleProblemChange
+                }
+                allProblems={Object.values(
+                  PROBLEMS
+                )}
               />
 
             </div>
 
           </Panel>
 
-          <PanelResizeHandle className="w-[2px] bg-white/10 hover:bg-blue-500 transition-all duration-200" />
+          {/* RESIZE HANDLE */}
+
+          <PanelResizeHandle className="w-[3px] bg-orange-100 hover:bg-orange-300 transition-all duration-300" />
 
           {/* RIGHT PANEL */}
+
           <Panel
             defaultSize={60}
             minSize={30}
@@ -216,37 +244,58 @@ function ProblemPage() {
 
             <PanelGroup direction="vertical">
 
+              {/* EDITOR */}
+
               <Panel
                 defaultSize={70}
                 minSize={30}
               >
 
-                <div className="h-full bg-white/5 backdrop-blur-xl">
+                <div className="h-full bg-[#FFF7ED] p-4">
 
-                  <CodeEditorPanel
-                    selectedLanguage={selectedLanguage}
-                    code={code}
-                    isRunning={isRunning}
-                    onLanguageChange={handleLanguageChange}
-                    onCodeChange={setCode}
-                    onRunCode={handleRunCode}
-                  />
+                  <div className="h-full bg-white border border-orange-100 rounded-[30px] overflow-hidden shadow-sm">
+
+                    <CodeEditorPanel
+                      selectedLanguage={
+                        selectedLanguage
+                      }
+                      code={code}
+                      isRunning={isRunning}
+                      onLanguageChange={
+                        handleLanguageChange
+                      }
+                      onCodeChange={setCode}
+                      onRunCode={
+                        handleRunCode
+                      }
+                    />
+
+                  </div>
 
                 </div>
 
               </Panel>
 
-              {/* RESIZE HANDLE */}
-              <PanelResizeHandle className="h-[2px] bg-white/10 hover:bg-blue-500 transition-all duration-200" />
+              {/* HANDLE */}
+
+              <PanelResizeHandle className="h-[3px] bg-orange-100 hover:bg-orange-300 transition-all duration-300" />
+
+              {/* OUTPUT */}
 
               <Panel
                 defaultSize={30}
                 minSize={20}
               >
 
-                <div className="h-full bg-black/40 border-t border-white/10">
+                <div className="h-full bg-[#FFF7ED] p-4 pt-0">
 
-                  <OutputPanel output={output} />
+                  <div className="h-full bg-white border border-orange-100 rounded-[30px] overflow-hidden shadow-sm">
+
+                    <OutputPanel
+                      output={output}
+                    />
+
+                  </div>
 
                 </div>
 
@@ -263,6 +312,7 @@ function ProblemPage() {
     </div>
 
   );
+
 }
 
 export default ProblemPage;
