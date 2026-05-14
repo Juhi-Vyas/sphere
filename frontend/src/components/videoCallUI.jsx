@@ -19,6 +19,7 @@ function VideoCallUI({ chatClient, channel }) {
   const participantCount = useParticipantCount();
   const [isChatOpen, setIsChatOpen] = useState(false);
   console.log('Hii');
+  console.log('Hii');
 
   if (callingState === CallingState.JOINING) {
     return (
