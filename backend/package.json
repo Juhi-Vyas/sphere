@@ -11,6 +11,9 @@
   "license": "ISC",
   "type": "module",
   "dependencies": {
+    "@clerk/express": "^2.1.14",
+    "@stream-io/node-sdk": "^0.7.56",
+    "@tanstack/react-query": "^5.100.9",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",

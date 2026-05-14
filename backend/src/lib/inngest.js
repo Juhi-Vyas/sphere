@@ -1,61 +1,136 @@
 import { Inngest } from "inngest";
-import { connectDB } from "./db.js";
-import User from "../models/User.js";
-import { upsertStreamUser, deleteStreamUser } from "./stream.js";
 
-export const inngest = new Inngest({ id: "sphere-app" });
+import { connectDB } from "./db.js";
+
+import User from "../models/User.js";
+
+import {
+  deleteStreamUser,
+  upsertStreamUser,
+} from "./stream.js";
+
+export const inngest = new Inngest({
+  id: "sphere",
+});
+
+// ================================
+// USER CREATED
+// ================================
 
 const syncUser = inngest.createFunction(
+
   {
     id: "sync-user",
-    triggers: [{ event: "clerk/user.created" }],
+
+    triggers: [
+      {
+        event: "clerk/user.created",
+      },
+    ],
   },
 
   async ({ event }) => {
 
-    await connectDB();
+    try {
 
-    const {
-      id,
-      email_addresses,
-      first_name,
-      last_name,
-      image_url,
-    } = event.data;
+      await connectDB();
 
-    const newUser = {
-      clerkId: id,
-      email: email_addresses[0]?.email_address,
-      name: `${first_name || ""} ${last_name || ""}`,
-      profileImage: image_url,
-    };
+      const {
+        id,
+        email_addresses,
+        first_name,
+        last_name,
+        image_url,
+      } = event.data;
 
-    await User.create(newUser);
+      const newUser = {
+        clerkId: id,
+        email:
+          email_addresses[0]?.email_address,
+        name:
+          `${first_name || ""} ${last_name || ""}`,
+        profileImage: image_url,
+      };
 
-    await upsertStreamUser({
-      id: newUser.clerkId.toString(),
-      name: newUser.name,
-      image: newUser.profileImage
-    })
+      // SAVE USER IN DATABASE
+      await User.create(newUser);
+
+      // CREATE STREAM USER
+      await upsertStreamUser({
+        id: newUser.clerkId.toString(),
+        name: newUser.name,
+        image: newUser.profileImage,
+      });
+
+      console.log(
+        "✅ User synced successfully"
+      );
+
+    } catch (error) {
+
+      console.log(
+        "❌ Error syncing user:",
+        error.message
+      );
+
+    }
+
   }
 );
 
-const deleteUserFromDB = inngest.createFunction(
-  {
-    id: "delete-user-from-db",
-    triggers: [{ event: "clerk/user.deleted" }],
-  },
+// ================================
+// USER DELETED
+// ================================
 
-  async ({ event }) => {
+const deleteUserFromDB =
+  inngest.createFunction(
 
-    await connectDB();
+    {
+      id: "delete-user",
 
-    const { id } = event.data;
+      triggers: [
+        {
+          event: "clerk/user.deleted",
+        },
+      ],
+    },
 
-    await User.deleteOne({ clerkId: id });
+    async ({ event }) => {
 
-    await deleteStreamUser(id.toString())
-  }
-);
+      try {
 
-export const functions = [syncUser, deleteUserFromDB];
+        await connectDB();
+
+        const { id } = event.data;
+
+        // DELETE FROM DATABASE
+        await User.deleteOne({
+          clerkId: id,
+        });
+
+        // DELETE FROM STREAM
+        await deleteStreamUser(
+          id.toString()
+        );
+
+        console.log(
+          "✅ User deleted successfully"
+        );
+
+      } catch (error) {
+
+        console.log(
+          "❌ Error deleting user:",
+          error.message
+        );
+
+      }
+
+    }
+  );
+
+// EXPORT FUNCTIONS
+export const functions = [
+  syncUser,
+  deleteUserFromDB,
+];
