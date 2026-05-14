@@ -112,7 +112,7 @@ function DashboardPage() {
 
                 </div>
 
-                <h1 className="text-4xl sm:text-5xl font-black leading-tight mb-4 text-blue-300">
+                <h1 className="text-4xl sm:text-5xl font-black leading-tight mb-4 text-blue-400">
 
                   Hello,
 
@@ -253,7 +253,7 @@ function DashboardPage() {
 
               </p>
 
-              <h2 className="text-4xl font-black text-blue-300">
+              <h2 className="text-4xl font-black text-blue-400">
 
                 Active Interview Rooms
 
@@ -298,7 +298,7 @@ function DashboardPage() {
 
                       </div>
 
-                      <h3 className="text-3xl font-black mb-3">
+                      <h3 className="text-3xl font-black mb-3 text-blue-400">
 
                         {session.problem}
 
@@ -348,7 +348,7 @@ function DashboardPage() {
 
                 </div>
 
-                <h3 className="text-3xl font-black mb-4 text-blue-300">
+                <h3 className="text-3xl font-black mb-4 text-blue-400">
 
                   No Active Sessions
 
