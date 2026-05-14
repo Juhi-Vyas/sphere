@@ -6,7 +6,7 @@ import { Toaster } from "react-hot-toast";
 import DashboardPage from "./pages/DashboardPage";
 import ProblemPage from "./pages/ProblemPage";
 import ProblemsPage from "./pages/ProblemsPage";
-import SessionPage from "./pages/TempPage";
+import SessionPage from "./pages/SessionPage";
 
 function App() {
   const { isSignedIn, isLoaded } = useUser();
