@@ -13,7 +13,7 @@ function App() {
 
   // this will get rid of the flickering effect
   if (!isLoaded) return null;
-
+  console.log("isSignedIn", isSignedIn);
   return (
     <>
       <Routes>
