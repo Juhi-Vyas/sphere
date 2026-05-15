@@ -12,6 +12,13 @@ import toast from "react-hot-toast";
 
 import confetti from "canvas-confetti";
 
+import {
+  TimerIcon,
+  PlayIcon,
+  PauseIcon,
+  RotateCcwIcon,
+} from "lucide-react";
+
 import Navbar from "../components/Navbar";
 
 import ProblemDescription from "../components/ProblemDescription";
@@ -45,6 +52,15 @@ function ProblemPage() {
   const [isRunning, setIsRunning] =
     useState(false);
 
+  /* TIMER */
+
+  const [seconds, setSeconds] =
+    useState(0);
+
+  const [isTimerRunning,
+    setIsTimerRunning] =
+    useState(true);
+
   const currentProblem =
     PROBLEMS[currentProblemId];
 
@@ -62,9 +78,70 @@ function ProblemPage() {
 
       setOutput(null);
 
+      setSeconds(0);
+
+      setIsTimerRunning(true);
+
     }
 
   }, [id, selectedLanguage]);
+
+  /* TIMER EFFECT */
+
+  useEffect(() => {
+
+    let interval;
+
+    if (isTimerRunning) {
+
+      interval = setInterval(() => {
+
+        setSeconds((prev) => prev + 1);
+
+      }, 1000);
+
+    }
+
+    return () => clearInterval(interval);
+
+  }, [isTimerRunning]);
+
+  const formatTime = () => {
+
+    const hours = Math.floor(
+      seconds / 3600
+    );
+
+    const minutes = Math.floor(
+      (seconds % 3600) / 60
+    );
+
+    const secs = seconds % 60;
+
+    if (hours > 0) {
+
+      return `${String(hours).padStart(
+        2,
+        "0"
+      )}:${String(minutes).padStart(
+        2,
+        "0"
+      )}:${String(secs).padStart(
+        2,
+        "0"
+      )}`;
+
+    }
+
+    return `${String(minutes).padStart(
+      2,
+      "0"
+    )}:${String(secs).padStart(
+      2,
+      "0"
+    )}`;
+
+  };
 
   const handleLanguageChange = (e) => {
 
@@ -213,6 +290,96 @@ function ProblemPage() {
           >
 
             <div className="h-full overflow-y-auto bg-white border-r border-orange-100">
+
+              {/* TIMER HEADER */}
+
+              <div className="sticky top-0 z-10 bg-white border-b border-orange-100 p-5">
+
+                <div className="flex items-center justify-between flex-wrap gap-4">
+
+                  <div>
+
+                    <h1 className="text-4xl font-black text-[#111827]">
+
+                      {currentProblem.title}
+
+                    </h1>
+
+                    <p className="text-orange-500 font-semibold mt-2">
+
+                      {
+                        currentProblem.category
+                      }
+
+                    </p>
+
+                  </div>
+
+                  {/* TIMER */}
+
+                  <div className="flex items-center gap-3">
+
+                    <div className="flex items-center gap-2 px-5 py-3 rounded-2xl bg-orange-50 border border-orange-200 shadow-sm">
+
+                      <div className="w-2.5 h-2.5 rounded-full bg-orange-500 animate-pulse" />
+
+                      <TimerIcon className="w-5 h-5 text-orange-500" />
+
+                      <span className="font-black text-xl text-orange-600 tracking-wide">
+
+                        {formatTime()}
+
+                      </span>
+
+                    </div>
+
+                    {/* PLAY / PAUSE */}
+
+                    <button
+                      onClick={() =>
+                        setIsTimerRunning(
+                          !isTimerRunning
+                        )
+                      }
+                      className="w-12 h-12 rounded-2xl bg-white border border-orange-200 flex items-center justify-center hover:bg-orange-50 transition-all"
+                    >
+
+                      {isTimerRunning ? (
+
+                        <PauseIcon className="w-5 h-5 text-orange-500" />
+
+                      ) : (
+
+                        <PlayIcon className="w-5 h-5 text-orange-500" />
+
+                      )}
+
+                    </button>
+
+                    {/* RESET */}
+
+                    <button
+                      onClick={() => {
+
+                        setSeconds(0);
+
+                        setIsTimerRunning(
+                          false
+                        );
+
+                      }}
+                      className="w-12 h-12 rounded-2xl bg-white border border-orange-200 flex items-center justify-center hover:bg-orange-50 transition-all"
+                    >
+
+                      <RotateCcwIcon className="w-5 h-5 text-orange-500" />
+
+                    </button>
+
+                  </div>
+
+                </div>
+
+              </div>
 
               <ProblemDescription
                 problem={currentProblem}
