@@ -32,6 +32,8 @@ import OutputPanel from "../components/OutputPanel";
 
 import useStreamClient from "../hooks/useStreamClient";
 
+import SessionTimer from "../components/SessionTimer";
+
 import {
   StreamCall,
   StreamVideo,
@@ -70,6 +72,7 @@ function SessionPage() {
 
   const session =
     sessionData?.session;
+    console.log("sessionData", sessionData)
 
   const isHost =
     session?.host?.clerkId ===
@@ -330,54 +333,58 @@ function SessionPage() {
 
                       {/* RIGHT */}
 
-                      <div className="flex items-center gap-3 flex-wrap">
+<div className="flex items-center gap-3 flex-wrap">
 
-                        <span
-                          className={`badge border-0 px-4 py-3 font-semibold ${getDifficultyBadgeClass(
-                            session?.difficulty
-                          )}`}
-                        >
+  {/* TIMER */}
 
-                          {session?.difficulty
-                            ?.slice(0, 1)
-                            .toUpperCase() +
-                            session?.difficulty?.slice(
-                              1
-                            )}
+  <SessionTimer
+    startedAt={session?.startedAt}
+    endedAt={session?.endedAt}
+  />
 
-                        </span>
+  {/* DIFFICULTY */}
 
-                        {isHost &&
-                          session?.status ===
-                            "active" && (
+  <span
+    className={`badge border-0 px-4 py-3 font-semibold ${getDifficultyBadgeClass(
+      session?.difficulty
+    )}`}
+  >
 
-                            <button
-                              onClick={
-                                handleEndSession
-                              }
-                              disabled={
-                                endSessionMutation.isPending
-                              }
-                              className="flex items-center gap-2 px-5 py-3 rounded-2xl bg-red-500 hover:bg-red-600 text-white font-semibold transition-all duration-300 shadow-lg shadow-red-100"
-                            >
+    {session?.difficulty
+      ?.slice(0, 1)
+      .toUpperCase() +
+      session?.difficulty?.slice(1)}
 
-                              {endSessionMutation.isPending ? (
+  </span>
 
-                                <Loader2Icon className="w-4 h-4 animate-spin" />
+  {/* END SESSION */}
 
-                              ) : (
+  {isHost &&
+    session?.status === "active" && (
 
-                                <LogOutIcon className="w-4 h-4" />
+      <button
+        onClick={handleEndSession}
+        disabled={endSessionMutation.isPending}
+        className="flex items-center gap-2 px-5 py-3 rounded-2xl bg-red-500 hover:bg-red-600 text-white font-semibold transition-all duration-300 shadow-lg shadow-red-100"
+      >
 
-                              )}
+        {endSessionMutation.isPending ? (
 
-                              End Session
+          <Loader2Icon className="w-4 h-4 animate-spin" />
 
-                            </button>
+        ) : (
 
-                          )}
+          <LogOutIcon className="w-4 h-4" />
 
-                      </div>
+        )}
+
+        End Session
+
+      </button>
+
+    )}
+
+</div>
 
                     </div>
 
@@ -532,129 +539,72 @@ function SessionPage() {
 
             <div className="h-full bg-[#FFF7ED] pl-2">
 
-              {isInitializingCall ? (
+  {isInitializingCall ? (
 
-                <div className="h-full flex items-center justify-center">
+    <div className="h-full flex items-center justify-center">
 
-                  <div className="bg-white border border-orange-100 rounded-[28px] p-10 text-center shadow-sm">
+      <div className="bg-white border border-orange-100 rounded-[28px] p-10 text-center shadow-sm">
 
-                    <Loader2Icon className="w-12 h-12 mx-auto animate-spin text-orange-500 mb-5" />
+        <Loader2Icon className="w-12 h-12 mx-auto animate-spin text-orange-500 mb-5" />
 
-                    <p className="text-lg font-semibold text-[#111827]">
+        <p className="text-lg font-semibold text-[#111827]">
+          Connecting to video call...
+        </p>
 
-                      Connecting to video call...
+      </div>
 
-                    </p>
+    </div>
 
-                  </div>
+  ) : !streamClient || !call ? (
 
-                </div>
+    <div className="h-full flex items-center justify-center">
 
-              ) : !streamClient ||
-                !call ? (
+      <div className="bg-white border border-orange-100 rounded-[28px] p-10 text-center shadow-sm max-w-md w-full">
 
-                <div className="h-full flex items-center justify-center">
+        <div className="w-24 h-24 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
 
-                  <div className="bg-white border border-orange-100 rounded-[28px] p-10 text-center shadow-sm max-w-md w-full">
+          <PhoneOffIcon className="w-12 h-12 text-red-500" />
 
-                    <div className="w-24 h-24 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
+        </div>
 
-                      <PhoneOffIcon className="w-12 h-12 text-red-500" />
+        <h2 className="text-3xl font-black text-[#111827] mb-3">
+          Connection Failed
+        </h2>
 
-                    </div>
+        <p className="text-gray-500">
+          Unable to connect to the video call
+        </p>
 
-                    <h2 className="text-3xl font-black text-[#111827] mb-3">
+      </div>
 
-                      Connection Failed
+    </div>
 
-                    </h2>
+  ) : (
 
-                    <p className="text-gray-500">
+    <div className="h-full bg-white border border-orange-100 rounded-[28px] p-2 shadow-sm">
 
-                      Unable to connect to the video call
+      <div className="h-full w-full rounded-[22px] overflow-hidden bg-black">
 
-                    </p>
+        <StreamVideo client={streamClient}>
 
-                  </div>
+          <StreamCall call={call}>
 
-                </div>
+            <VideoCallUI
+              chatClient={chatClient}
+              channel={channel}
+            />
 
-              ) : (
+          </StreamCall>
 
-                <div className="h-full bg-white border border-orange-100 rounded-[28px] p-2 shadow-sm">
+        </StreamVideo>
 
-                  <div className="relative h-full w-full rounded-[22px] overflow-hidden bg-black border border-green-400/40 shadow-[0_0_30px_rgba(0,255,100,0.15)]">
+      </div>
 
-                    {/* GREEN OVERLAY */}
+    </div>
 
-                    <div className="absolute inset-0 bg-green-500/10 pointer-events-none z-10" />
+  )}
 
-                    {/* SCANLINES */}
-
-                    <div className="absolute inset-0 opacity-10 mix-blend-screen pointer-events-none z-10 bg-[linear-gradient(to_bottom,transparent_50%,rgba(0,255,0,0.15)_51%)] bg-[length:100%_4px]" />
-
-                    {/* TIMESTAMP */}
-
-                    <div className="absolute top-5 left-5 z-20 text-[#E5FFE5] font-mono">
-
-                      <p className="text-xl sm:text-2xl tracking-widest font-bold">
-
-                        2026-05-14 00:00:13
-
-                      </p>
-
-                      <p className="text-sm sm:text-lg mt-1 opacity-80">
-
-                        CAM 03
-
-                      </p>
-
-                    </div>
-
-                    {/* REC */}
-
-                    <div className="absolute top-5 right-5 z-20 flex items-center gap-3">
-
-                      <span className="text-white text-xl sm:text-3xl font-mono font-bold tracking-wider">
-
-                        REC
-
-                      </span>
-
-                      <div className="w-4 h-4 rounded-full bg-red-500 animate-pulse shadow-[0_0_20px_red]" />
-
-                    </div>
-
-                    {/* VIDEO */}
-
-                    <StreamVideo client={streamClient}>
-
-                      <StreamCall call={call}>
-
-                        <VideoCallUI
-                          chatClient={
-                            chatClient
-                          }
-                          channel={
-                            channel
-                          }
-                        />
-
-                      </StreamCall>
-
-                    </StreamVideo>
-
-                    {/* VIGNETTE */}
-
-                    <div className="absolute inset-0 pointer-events-none z-10 shadow-[inset_0_0_120px_rgba(0,0,0,0.8)]" />
-
-                  </div>
-
-                </div>
-
-              )}
-
-            </div>
+</div>
 
           </Panel>
 

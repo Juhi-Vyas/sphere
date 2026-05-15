@@ -11,8 +11,6 @@ import SessionPage from "./pages/SessionPage";
 function App() {
   const { isSignedIn, isLoaded } = useUser();
 
-  console.log("object")
-
   // this will get rid of the flickering effect
   if (!isLoaded) return null;
   return (
