@@ -31,6 +31,15 @@ const sessionSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
+    startedAt: {
+      type: Date,
+      default: null,
+    },
+
+    endedAt: {
+      type: Date,
+      default: null,
+    },
   },
   { timestamps: true }
 );
