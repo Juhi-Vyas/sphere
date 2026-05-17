@@ -57,13 +57,13 @@ function SessionTimer({ startedAt, endedAt }) {
 
   return (
 
-    <div className="flex items-center gap-2 px-4 py-2 rounded-2xl bg-orange-50 border border-orange-200 shadow-sm">
+    <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-orange-50 border border-orange-200 shadow-sm">
 
-      <div className="w-2.5 h-2.5 rounded-full bg-orange-500 animate-pulse" />
+      <div className="w-2 h-2 rounded-full bg-orange-500 animate-pulse" />
 
-      <TimerIcon className="w-4 h-4 text-orange-500" />
+      <TimerIcon className="w-3.5 h-3.5 text-orange-500" />
 
-      <span className="font-black text-orange-600 tracking-wide">
+      <span className="font-bold text-xs text-orange-600 tracking-wide">
 
         {time}
 

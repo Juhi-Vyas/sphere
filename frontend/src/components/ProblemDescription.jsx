@@ -13,48 +13,14 @@ function ProblemDescription({
 
       {/* HEADER */}
 
-      <div className="sticky top-0 z-10 bg-[#FFF7ED]/95 backdrop-blur-md border-b border-orange-100 px-5 py-4">
+      <div className="sticky top-0 z-10 bg-[#FFF7ED]/95 backdrop-blur-md border-b border-orange-100 px-3 py-3">
 
-        <div className="flex items-start justify-between gap-4">
+        <div className="flex items-center gap-2">
 
-          {/* LEFT */}
-
-          <div className="flex-1 min-w-0">
-
-            <h1 className="text-3xl lg:text-4xl font-black text-[#111827] leading-tight">
-
-              {problem.title}
-
-            </h1>
-
-            <p className="text-orange-500 font-semibold mt-2 text-sm sm:text-base">
-
-              {problem.category}
-
-            </p>
-
-          </div>
-
-          {/* BADGE */}
-
-          <span
-            className={`badge border-0 px-4 py-3 font-semibold shadow-sm ${getDifficultyBadgeClass(
-              problem.difficulty
-            )}`}
-          >
-
-            {problem.difficulty}
-
-          </span>
-
-        </div>
-
-        {/* SELECT */}
-
-        <div className="mt-4">
+          {/* SELECT */}
 
           <select
-            className="select w-full bg-white border border-orange-100 rounded-2xl text-[#111827] focus:outline-none focus:border-orange-300 shadow-sm"
+            className="flex-1 bg-white border border-orange-100 rounded-xl px-3 py-2 text-sm font-semibold text-[#111827] focus:outline-none focus:border-orange-300 shadow-sm"
             value={currentProblemId}
             onChange={(e) =>
               onProblemChange(e.target.value)
@@ -68,8 +34,7 @@ function ProblemDescription({
                 value={p.id}
               >
 
-                {p.title} -{" "}
-                {p.difficulty}
+                {p.title} • {p.difficulty}
 
               </option>
 
@@ -77,23 +42,43 @@ function ProblemDescription({
 
           </select>
 
+          {/* BADGE */}
+
+          <span
+            className={`badge border-0 px-2 py-1 text-[12px] font-semibold shadow-sm ${getDifficultyBadgeClass(
+              problem.difficulty
+            )}`}
+          >
+
+            {problem.difficulty}
+
+          </span>
+
         </div>
+
+        {/* CATEGORY */}
+
+        <p className="text-orange-500 font-medium mt-2 text-[12px]">
+
+          {problem.category}
+
+        </p>
 
       </div>
 
       {/* CONTENT */}
 
-      <div className="p-4 sm:p-5 space-y-5">
+      <div className="p-4 space-y-4">
 
         {/* DESCRIPTION */}
 
-        <div className="bg-white border border-orange-100 rounded-[28px] p-5 shadow-sm hover:shadow-md transition-all duration-300">
+        <div className="bg-white border border-orange-100 rounded-[24px] p-4 shadow-sm">
 
-          <div className="flex items-center gap-3 mb-4">
+          <div className="flex items-center gap-2 mb-3">
 
-            <div className="w-10 h-10 rounded-2xl bg-orange-100 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-xl bg-orange-100 flex items-center justify-center">
 
-              <span className="text-orange-500 font-black">
+              <span className="text-orange-500 text-sm font-black">
 
                 D
 
@@ -101,7 +86,7 @@ function ProblemDescription({
 
             </div>
 
-            <h2 className="text-2xl font-black text-[#111827]">
+            <h2 className="text-sm font-bold text-[#111827]">
 
               Description
 
@@ -109,7 +94,7 @@ function ProblemDescription({
 
           </div>
 
-          <div className="space-y-4 text-gray-700 leading-8 text-[15px]">
+          <div className="space-y-3 text-gray-700 leading-6 text-sm">
 
             <p>
 
@@ -135,13 +120,13 @@ function ProblemDescription({
 
         {/* EXAMPLES */}
 
-        <div className="bg-white border border-orange-100 rounded-[28px] p-5 shadow-sm hover:shadow-md transition-all duration-300">
+        <div className="bg-white border border-orange-100 rounded-[24px] p-4 shadow-sm">
 
-          <div className="flex items-center gap-3 mb-5">
+          <div className="flex items-center gap-2 mb-4">
 
-            <div className="w-10 h-10 rounded-2xl bg-blue-100 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-xl bg-blue-100 flex items-center justify-center">
 
-              <span className="text-blue-500 font-black">
+              <span className="text-blue-500 text-sm font-black">
 
                 E
 
@@ -149,7 +134,7 @@ function ProblemDescription({
 
             </div>
 
-            <h2 className="text-2xl font-black text-[#111827]">
+            <h2 className="text-sm font-bold text-[#111827]">
 
               Examples
 
@@ -164,20 +149,20 @@ function ProblemDescription({
 
                 <div
                   key={idx}
-                  className="bg-[#FFF7ED] border border-orange-100 rounded-[24px] p-4"
+                  className="bg-[#FFF7ED] border border-orange-100 rounded-[20px] p-3"
                 >
 
                   {/* TOP */}
 
-                  <div className="flex items-center gap-3 mb-4">
+                  <div className="flex items-center gap-2 mb-3">
 
-                    <div className="w-7 h-7 rounded-full bg-orange-500 text-white flex items-center justify-center text-xs font-bold shadow-sm">
+                    <div className="w-6 h-6 rounded-full bg-orange-500 text-white flex items-center justify-center text-[10px] font-bold">
 
                       {idx + 1}
 
                     </div>
 
-                    <p className="font-bold text-[#111827]">
+                    <p className="font-semibold text-sm text-[#111827]">
 
                       Example {idx + 1}
 
@@ -187,11 +172,11 @@ function ProblemDescription({
 
                   {/* CONTENT */}
 
-                  <div className="space-y-3 font-mono text-sm">
+                  <div className="space-y-2 font-mono text-sm">
 
-                    <div className="flex flex-col sm:flex-row gap-1 sm:gap-3">
+                    <div className="flex flex-col sm:flex-row gap-1 sm:gap-2">
 
-                      <span className="text-orange-500 font-bold sm:min-w-[70px]">
+                      <span className="text-orange-500 font-bold sm:min-w-[60px]">
 
                         Input:
 
@@ -205,9 +190,9 @@ function ProblemDescription({
 
                     </div>
 
-                    <div className="flex flex-col sm:flex-row gap-1 sm:gap-3">
+                    <div className="flex flex-col sm:flex-row gap-1 sm:gap-2">
 
-                      <span className="text-green-500 font-bold sm:min-w-[70px]">
+                      <span className="text-green-500 font-bold sm:min-w-[60px]">
 
                         Output:
 
@@ -223,9 +208,9 @@ function ProblemDescription({
 
                     {example.explanation && (
 
-                      <div className="pt-3 border-t border-orange-100">
+                      <div className="pt-2 border-t border-orange-100">
 
-                        <span className="text-xs text-gray-500 leading-6 font-sans">
+                        <span className="text-[12px] text-gray-500 leading-5 font-sans">
 
                           <span className="font-bold text-[#111827]">
 
@@ -256,13 +241,13 @@ function ProblemDescription({
 
         {/* CONSTRAINTS */}
 
-        <div className="bg-white border border-orange-100 rounded-[28px] p-5 shadow-sm hover:shadow-md transition-all duration-300">
+        <div className="bg-white border border-orange-100 rounded-[24px] p-4 shadow-sm">
 
-          <div className="flex items-center gap-3 mb-5">
+          <div className="flex items-center gap-2 mb-4">
 
-            <div className="w-10 h-10 rounded-2xl bg-purple-100 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-xl bg-purple-100 flex items-center justify-center">
 
-              <span className="text-purple-500 font-black">
+              <span className="text-purple-500 text-sm font-black">
 
                 C
 
@@ -270,7 +255,7 @@ function ProblemDescription({
 
             </div>
 
-            <h2 className="text-2xl font-black text-[#111827]">
+            <h2 className="text-sm font-bold text-[#111827]">
 
               Constraints
 
@@ -278,17 +263,17 @@ function ProblemDescription({
 
           </div>
 
-          <ul className="space-y-3">
+          <ul className="space-y-2">
 
             {problem.constraints.map(
               (constraint, idx) => (
 
                 <li
                   key={idx}
-                  className="flex items-start gap-3 text-gray-700"
+                  className="flex items-start gap-2 text-gray-700"
                 >
 
-                  <span className="text-orange-500 font-bold mt-[2px]">
+                  <span className="text-orange-500 font-bold mt-[2px] text-sm">
 
                     •
 
